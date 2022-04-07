@@ -17,14 +17,12 @@ static void try_malloc(size_t bytes)
     p1 = (struct test_struct *)(malloc(total_bytes)); // allocate p1 so that it is big enough to
     if (p1 == NULL)                                   // put exactly <bytes> into p1->open_ended_array
     {   printf("malloc %zu bytes failed!\n", total_bytes); return; }
+    p1->open_ended_array[0] = 2;  // see if this affects the report of a memory leak
 
-    // Now try to copy ARRAYBYTES into p1->open_ended_array
-    strncpy_s(&(p1->open_ended_array[0]), ARRAYBYTES, static_array, ARRAYBYTES);  // <<-- SQ does NOT report this buffer overflow!
-
-    // SQ will NOT report a memory leak here, presumably because it doesn't know what strncpy_s() even does...
+    // SQ will correctly report a memory leak here
 }
 
 void main()
 {
-    try_malloc(5);  // ...even a D- static analyzer should be able to spot this one!
+    try_malloc(5);
 }

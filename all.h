@@ -13,5 +13,3 @@
 #include <errno.h>
 #include <share.h>
 #include <signal.h>
-#include <winsock2.h>
-#include <Mstcpip.h>

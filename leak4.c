@@ -24,5 +24,5 @@ static void try_malloc(size_t bytes)
 
 void main()
 {
-    try_malloc(5);
+    try_malloc(ARRAYBYTES*10);
 }

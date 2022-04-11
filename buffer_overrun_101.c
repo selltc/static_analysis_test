@@ -5,6 +5,17 @@ struct test_struct
     char open_ended_array[1];
 };
 
+static void f_nothing_wrong()
+{
+    struct test_struct *p;
+    size_t bytes = 50;
+    size_t total_bytes = sizeof(struct test_struct)+(bytes-1);
+    p = (struct test_struct *)(malloc(total_bytes));
+    if (p == NULL) return;
+    strncpy(&(p->open_ended_array[0]), "hello_world", 20);
+    free(p);
+}
+
 static void f_easy1()
 {
     struct test_struct *p;
@@ -12,7 +23,7 @@ static void f_easy1()
     size_t total_bytes = sizeof(struct test_struct)+(bytes-1);
     p = (struct test_struct *)(malloc(total_bytes));
     if (p == NULL) return;
-    strncpy(&(p->open_ended_array[0]), "hello_world", 10);
+    strncpy(&(p->open_ended_array[0]), "hello_world", 20);
 }
 
 static void f_easy2()
@@ -22,7 +33,7 @@ static void f_easy2()
     size_t total_bytes = sizeof(struct test_struct)+(bytes-1);
     p = (struct test_struct *)(malloc(total_bytes));
     if (p == NULL) return;
-    strncpy_s(&(p->open_ended_array[0]), 10, "hello_world", 10);
+    strncpy_s(&(p->open_ended_array[0]), 20, "hello_world", 20);
 }
 
 static void f_easy3()
@@ -32,7 +43,7 @@ static void f_easy3()
     size_t total_bytes = sizeof(struct test_struct)+(bytes-1);
     p = (struct test_struct *)(malloc(total_bytes));
     if (p == NULL) return;
-    memcpy_s(&(p->open_ended_array[0]), 10, "hello_world", 10);
+    memcpy_s(&(p->open_ended_array[0]), 20, "hello_world", 20);
 }
 
 static void f_easy4()
@@ -62,6 +73,7 @@ static void f_easiest()
 
 void main()
 {
+    f_nothing_wrong();
     f_easy1();
     f_easy2();
     f_easy3();
